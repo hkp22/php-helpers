@@ -1,0 +1,22 @@
+{
+    "name": "hkp22/php-helpers",
+    "description": "Php Helpers inspired by Laravel Helpers for non-laravel projects.",
+    "license": "MIT",
+    "keywords": ["php", "php helpers", "laravel helpers", "laravel", "helpers"],
+    "authors": [
+        {
+            "name": "Harish Kumar",
+            "email": "harish.pra22@gmail.com"
+        }
+    ],
+    "require": {
+    	"php": ">=5.4.0"
+    },
+    "autoload": {
+        "files": [
+            "src/array.php",
+            "src/miscellaneous.php"
+        ]
+    },
+    "minimum-stability": "stable"
+}
