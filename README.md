@@ -14,6 +14,9 @@ composer require hkp22/php-helpers
 
 * **[Arrays](#arrays)**
   * [array_add()](#array_add)
+  * [array_build()](#array_build)
+  * [array_divide()](#array_divide)
+  * [array_dot()](#array_dot)
   * [array_get()](#array_get)
   * [array_set()](#array_set)
 * **[Miscellaneous](#miscellaneous)**
@@ -34,6 +37,54 @@ The `array_add` function adds a given key/value pair to an array if the given ke
 $array = array_add(['name' => 'Desk'], 'price', 100);
 
 // ['name' => 'Desk', 'price' => 100]
+```
+
+### `array_build()`
+<a name="array_build"></a>
+
+Build a new array using a callback.
+
+```php
+$array = [
+    'us' => 'united states',
+    'uk' => 'united kingdom',
+    'in' => 'india',
+  ];
+
+// run array_build function
+$result = array_build($array, function ($key, $value) {
+    return [strtoupper($key), ucwords($value)];
+});
+
+// Output
+// ['US' => 'United States', 'UK' => 'United Kingdom', 'IN' => 'India']
+
+```
+
+### `array_divide()`
+<a name="array_divide"></a>
+
+The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the given array:
+
+```php
+[$keys, $values] = array_divide(['name' => 'Desk']);
+
+// $keys: ['name']
+
+// $values: ['Desk']
+```
+
+### `array_dot()`
+<a name="array_dot"></a>
+
+The `array_dot` function flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
+
+```php
+$array = ['products' => ['desk' => ['price' => 100]]];
+
+$flattened = array_dot($array);
+
+// ['products.desk.price' => 100]
 ```
 
 ### `array_get()`

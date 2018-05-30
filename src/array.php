@@ -84,3 +84,59 @@ if (!function_exists('array_add')) {
         return $array;
     }
 }
+
+if (!function_exists('array_build')) {
+    /**
+     * Build a new array using a callback.
+     *
+     * @param  array     $array
+     * @param  \Closure  $callback
+     * @return array
+     */
+    function array_build($array, Closure $callback)
+    {
+        $results = [];
+
+        foreach ($array as $key => $value) {
+            list($innerKey, $innerValue) = call_user_func($callback, $key, $value);
+            $results[$innerKey] = $innerValue;
+        }
+
+        return $results;
+    }
+}
+
+if (!function_exists('array_divide')) {
+    /**
+     * Divide an array into two arrays. One with keys and the other with values.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    function array_divide($array)
+    {
+        return [array_keys($array), array_values($array)];
+    }
+}
+
+if (!function_exists('array_dot')) {
+    /**
+     * Flatten a multi-dimensional associative array with dots.
+     *
+     * @param  array   $array
+     * @param  string  $prepend
+     * @return array
+     */
+    function array_dot($array, $prepend = '')
+    {
+        $results = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $results = array_merge($results, array_dot($value, $prepend . $key . '.'));
+            } else {
+                $results[$prepend . $key] = $value;
+            }
+        }
+        return $results;
+    }
+}
