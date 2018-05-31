@@ -140,3 +140,52 @@ if (!function_exists('array_dot')) {
         return $results;
     }
 }
+
+if (!function_exists('array_except')) {
+    /**
+     * Get all of the given array except for a specified array of items.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    function array_except($array, $keys)
+    {
+        return array_diff_key($array, array_flip((array) $keys));
+    }
+}
+
+if (!function_exists('array_first')) {
+    /**
+     * Return the first element in an array passing a given truth test.
+     *
+     * @param  array     $array
+     * @param  \Closure  $callback
+     * @param  mixed     $default
+     * @return mixed
+     */
+    function array_first($array, $callback, $default = null)
+    {
+        foreach ($array as $key => $value) {
+            if (call_user_func($callback, $key, $value)) {
+                return $value;
+            }
+        }
+        return value($default);
+    }
+}
+
+if (!function_exists('array_last')) {
+    /**
+     * Return the last element in an array passing a given truth test.
+     *
+     * @param  array     $array
+     * @param  \Closure  $callback
+     * @param  mixed     $default
+     * @return mixed
+     */
+    function array_last($array, $callback, $default = null)
+    {
+        return array_first(array_reverse($array), $callback, $default);
+    }
+}
