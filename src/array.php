@@ -189,3 +189,93 @@ if (!function_exists('array_last')) {
         return array_first(array_reverse($array), $callback, $default);
     }
 }
+
+if (!function_exists('array_flatten')) {
+    /**
+     * Flatten a multi-dimensional array into a single level.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    function array_flatten($array)
+    {
+        $return = [];
+        array_walk_recursive($array, function ($x) use (&$return) {
+            $return[] = $x;
+        });
+
+        return $return;
+    }
+}
+
+if (!function_exists('array_forget')) {
+    /**
+     * Remove one or many array items from a given array using "dot" notation.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return void
+     */
+    function array_forget(&$array, $keys)
+    {
+        $original = &$array;
+
+        foreach ((array) $keys as $key) {
+            $parts = explode('.', $key);
+            while (count($parts) > 1) {
+                $part = array_shift($parts);
+                if (isset($array[$part]) && is_array($array[$part])) {
+                    $array = &$array[$part];
+                }
+            }
+            unset($array[array_shift($parts)]);
+
+            // clean up after each pass
+            $array = &$original;
+        }
+    }
+}
+
+if (!function_exists('array_has')) {
+    /**
+     * Check if an item or items exist in an array using "dot" notation.
+     *
+     * @param  \ArrayAccess|array  $array
+     * @param  string|array  $keys
+     * @return bool
+     */
+    function array_has($array, $keys)
+    {
+        if (is_null($keys)) {
+            return false;
+        }
+
+        $keys = (array) $keys;
+
+        if (!$array) {
+            return false;
+        }
+
+        if ($keys === []) {
+            return false;
+        }
+
+        foreach ($keys as $key) {
+            $subKeyArray = $array;
+
+            if (array_key_exists($key, $array)) {
+                continue;
+            }
+
+            foreach (explode('.', $key) as $segment) {
+                if (is_array($subKeyArray) && array_key_exists($segment, $subKeyArray)) {
+                    $subKeyArray = $subKeyArray[$segment];
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}

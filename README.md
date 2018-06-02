@@ -20,8 +20,11 @@ composer require hkp22/php-helpers
   * [array_except()](#array_except)
   * [array_first()](#array_first)
   * [array_last()](#array_last)
+  * [array_flatten()](#array_flatten)
+  * [array_forget()](#array_forget)
   * [array_get()](#array_get)
   * [array_set()](#array_set)
+  * [array_has()](#array_has)
 * **[Miscellaneous](#miscellaneous)**
   * [dd()](#dd)
   * [value()](#value)
@@ -133,6 +136,32 @@ $last = array_last($array, function ($key, $value) {
 // 300
 ```
 
+### `array_flatten()`
+<a name="array_flatten"></a>
+
+The `array_flatten` function flattens a multi-dimensional array into a single level array:
+
+```php
+$array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
+
+$flattened = array_flatten($array);
+
+// ['Joe', 'PHP', 'Ruby']
+```
+
+### `array_forget()`
+<a name="array_get"></a>
+
+The `array_forget` function removes a given key / value pair from a deeply nested array using "dot" notation:
+
+```php
+$array = ['products' => ['desk' => ['price' => 100]]];
+
+array_forget($array, 'products.desk');
+
+// ['products' => []]
+```
+
 ### `array_get()`
 <a name="array_get"></a>
 
@@ -157,6 +186,23 @@ $array = ['products' => ['desk' => ['price' => 100]]];
 array_set($array, 'products.desk.price', 200);
 
 // ['products' => ['desk' => ['price' => 200]]]
+```
+
+## `array_has()`
+<a name="array_has"></a>
+
+The `array_has` function checks whether a given item or items exists in an array using "dot" notation:
+
+```php
+$array = ['product' => ['name' => 'Desk', 'price' => 100]];
+
+$contains = array_has($array, 'product.name');
+
+// true
+
+$contains = array_has($array, ['product.price', 'product.discount']);
+
+// false
 ```
 
 ## Miscellaneous
