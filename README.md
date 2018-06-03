@@ -28,6 +28,7 @@ composer require hkp22/php-helpers
   * [array_only()](#array_only)
   * [array_pluck()](#array_pluck)
   * [array_pull()](#array_pull)
+  * [array_where()](#array_where)
   * [data_get()](#data_get)
 * **[Miscellaneous](#miscellaneous)**
   * [dd()](#dd)
@@ -264,6 +265,20 @@ A default value may be passed as the third argument to the method. This value wi
 
 ```php
 $value = array_pull($array, $key, $default);
+```
+
+### `array_where()`
+
+The `array_where` function filters an array using the given Closure:
+
+```php
+$array = [100, '200', 300, '400', 500];
+
+$filtered = array_where($array, function ($value, $key) {
+    return is_string($value);
+});
+
+// [1 => '200', 3 => '400']
 ```
 
 ### `data_get()`

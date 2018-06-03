@@ -372,6 +372,22 @@ if (!function_exists('array_pull')) {
     }
 }
 
+if ( ! function_exists('array_where'))
+{
+    /**
+     * Filter the array using the given callback.
+     *
+     * @param  array  $array
+     * @param  callable  $callback
+     * @return array
+     */
+    function array_where($array, callable $callback)
+    {
+        return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+    }
+}
+
+
 if (!function_exists('data_get')) {
     /**
      * Get an item from an array or object using "dot" notation.
