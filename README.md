@@ -30,8 +30,14 @@ composer require hkp22/php-helpers
   * [array_pull()](#array_pull)
   * [array_where()](#array_where)
   * [data_get()](#data_get)
+* **[Strings](#strings)**
+  * [camel_case()](#camel_case)
+  * [class_basename()](#class_basename)
+  * [studly_case()](#studly_case)
 * **[Miscellaneous](#miscellaneous)**
+  * [class_uses_recursive()](#class_uses_recursive)
   * [dd()](#dd)
+  * [trait_uses_recursive()](#trait_uses_recursive)
   * [value()](#value)
 
 
@@ -294,9 +300,53 @@ $price = data_get($data, 'products.desk.price');
 // 100
 ```
 
+## Strings
+<a name="strings"></a>
+
+### `camel_case()`
+<a name="camel_case"></a>
+
+The `camel_case` function converts the given string to `camelCase`:
+
+```php
+$converted = camel_case('foo_bar');
+
+// fooBar
+```
+
+### `class_basename()`
+<a name="class_basename"></a>
+
+The `class_basename` returns the class name of the given class with the class' namespace removed:
+
+```php
+$class = class_basename('Foo\Bar\Baz');
+
+// Baz
+```
+
+### `studly_case()`
+<a name="studly_case"></a>
+
+The `studly_case` function converts the given string to `StudlyCase`:
+
+```php
+$converted = studly_case('foo_bar');
+
+// FooBar
+```
+
 ## Miscellaneous
 <a name="miscellaneous"></a>
 
+### `class_uses_recursive()`
+<a name="class_uses_recursive"></a>
+
+The `class_uses_recursive` function returns all traits used by a class, including traits used by all of its parent classes:
+
+```php
+$traits = class_uses_recursive(App\User::class);
+```
 
 ### `dd()`
 <a name="dd"></a>
@@ -307,6 +357,15 @@ The `dd` function dumps the given variables and ends execution of the script:
 dd($value);
 
 dd($value1, $value2, $value3, ...);
+```
+
+### `trait_uses_recursive()`
+<a name="trait_uses_recursive"></a>
+
+The `trait_uses_recursive` function returns all traits used by a trait:
+
+```php
+$traits = trait_uses_recursive(\Illuminate\Notifications\Notifiable::class);
 ```
 
 ### `value()`

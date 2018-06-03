@@ -15,6 +15,7 @@
     "autoload": {
         "files": [
             "src/array.php",
+            "src/strings.php",
             "src/miscellaneous.php"
         ]
     },
