@@ -1,5 +1,18 @@
 <?php
 
+if (!function_exists('array_accessible')) {
+    /**
+     * Determine whether the given value is array accessible.
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+    function array_accessible($value)
+    {
+        return is_array($value) || $value instanceof ArrayAccess;
+    }
+}
+
 if (!function_exists('array_set')) {
     /**
      * Set an array item to a given value using "dot" notation.
@@ -155,6 +168,24 @@ if (!function_exists('array_except')) {
     }
 }
 
+if (!function_exists('array_exists')) {
+    /**
+     * Determine if the given key exists in the provided array.
+     *
+     * @param  \ArrayAccess|array  $array
+     * @param  string|int  $key
+     * @return bool
+     */
+    function array_exists($key, $array)
+    {
+        if ($array instanceof ArrayAccess) {
+            return $array->offsetExists($key);
+        }
+
+        return array_key_exists($key, $array);
+    }
+}
+
 if (!function_exists('array_first')) {
     /**
      * Return the first element in an array passing a given truth test.
@@ -268,7 +299,7 @@ if (!function_exists('array_has')) {
             }
 
             foreach (explode('.', $key) as $segment) {
-                if (is_array($subKeyArray) && array_key_exists($segment, $subKeyArray)) {
+                if (array_accessible($subKeyArray) && array_exists($segment, $subKeyArray)) {
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
                     return false;
@@ -277,5 +308,105 @@ if (!function_exists('array_has')) {
         }
 
         return true;
+    }
+}
+
+if (!function_exists('array_only')) {
+    /**
+     * Get a subset of the items from the given array.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    function array_only($array, $keys)
+    {
+        return array_intersect_key($array, array_flip((array) $keys));
+    }
+}
+
+if (!function_exists('array_pluck')) {
+    /**
+     * Pluck an array of values from an array.
+     *
+     * @param  array   $array
+     * @param  string  $value
+     * @param  string  $key
+     * @return array
+     */
+    function array_pluck($array, $value, $key = null)
+    {
+        $results = [];
+        foreach ($array as $item) {
+            $itemValue = data_get($item, $value);
+            // If the key is "null", we will just append the value to the array and keep
+            // looping. Otherwise we will key the array using the value of the key we
+            // received from the developer. Then we'll return the final array form.
+            if (is_null($key)) {
+                $results[] = $itemValue;
+            } else {
+                $itemKey = data_get($item, $key);
+                $results[$itemKey] = $itemValue;
+            }
+        }
+        return $results;
+    }
+}
+
+if (!function_exists('array_pull')) {
+    /**
+     * Get a value from the array, and remove it.
+     *
+     * @param  array   $array
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function array_pull(&$array, $key, $default = null)
+    {
+        $value = array_get($array, $key, $default);
+
+        array_forget($array, $key);
+
+        return $value;
+    }
+}
+
+if (!function_exists('data_get')) {
+    /**
+     * Get an item from an array or object using "dot" notation.
+     *
+     * @param  mixed   $target
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function data_get($target, $key, $default = null)
+    {
+        if (is_null($key)) {
+            return $target;
+        }
+
+        foreach (explode('.', $key) as $segment) {
+            if (is_array($target)) {
+                if (!array_key_exists($segment, $target)) {
+                    return value($default);
+                }
+                $target = $target[$segment];
+            } elseif ($target instanceof ArrayAccess) {
+                if (!isset($target[$segment])) {
+                    return value($default);
+                }
+                $target = $target[$segment];
+            } elseif (is_object($target)) {
+                if (!isset($target->{$segment})) {
+                    return value($default);
+                }
+                $target = $target->{$segment};
+            } else {
+                return value($default);
+            }
+        }
+        return $target;
     }
 }

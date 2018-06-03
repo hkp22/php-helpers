@@ -25,6 +25,10 @@ composer require hkp22/php-helpers
   * [array_get()](#array_get)
   * [array_set()](#array_set)
   * [array_has()](#array_has)
+  * [array_only()](#array_only)
+  * [array_pluck()](#array_pluck)
+  * [array_pull()](#array_pull)
+  * [data_get()](#data_get)
 * **[Miscellaneous](#miscellaneous)**
   * [dd()](#dd)
   * [value()](#value)
@@ -203,6 +207,76 @@ $contains = array_has($array, 'product.name');
 $contains = array_has($array, ['product.price', 'product.discount']);
 
 // false
+```
+
+### `array_only()`
+<a name="array_only"></a>
+
+The `array_only` function returns only the specified key / value pairs from the given array:
+
+```php
+$array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
+
+$slice = array_only($array, ['name', 'price']);
+
+// ['name' => 'Desk', 'price' => 100]
+```
+
+### `array_pluck()`
+<a name="array_pluck"></a>
+
+The `array_pluck` function retrieves all of the values for a given key from an array:
+
+```php
+$array = [
+    ['developer' => ['id' => 1, 'name' => 'Taylor']],
+    ['developer' => ['id' => 2, 'name' => 'Abigail']],
+];
+
+$names = array_pluck($array, 'developer.name');
+
+// ['Taylor', 'Abigail']
+```
+
+You may also specify how you wish the resulting list to be keyed:
+
+```php
+$names = array_pluck($array, 'developer.name', 'developer.id');
+
+// [1 => 'Taylor', 2 => 'Abigail']
+```
+
+### `array_pull()`
+
+The `array_pull` function returns and removes a key / value pair from an array:
+
+```php
+$array = ['name' => 'Desk', 'price' => 100];
+
+$name = array_pull($array, 'name');
+
+// $name: Desk
+
+// $array: ['price' => 100]
+```
+
+A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
+
+```php
+$value = array_pull($array, $key, $default);
+```
+
+### `data_get()`
+<a name="data_get"></a>
+
+The `data_get` function retrieves a value from a nested array or object using "dot" notation:
+
+```php
+$data = ['products' => ['desk' => ['price' => 100]]];
+
+$price = data_get($data, 'products.desk.price');
+
+// 100
 ```
 
 ## Miscellaneous
