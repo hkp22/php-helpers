@@ -52,3 +52,36 @@ if (!function_exists('studly_case')) {
         return $studlyCache[$key] = str_replace(' ', '', $value);
     }
 }
+
+if (!function_exists('e')) {
+    /**
+     * Escape HTML special characters in a string.
+     *
+     * @param  \Illuminate\Contracts\Support\Htmlable|string  $value
+     * @return string
+     */
+    function e($value)
+    {
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
+    }
+}
+
+if (!function_exists('ends_with')) {
+    /**
+     * Determine if a given string ends with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     */
+    function ends_with($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if (substr($haystack, -strlen($needle)) === (string) $needle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

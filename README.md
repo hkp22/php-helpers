@@ -33,6 +33,8 @@ composer require hkp22/php-helpers
 * **[Strings](#strings)**
   * [camel_case()](#camel_case)
   * [class_basename()](#class_basename)
+  * [e()](#e)
+  * [ends_with()](#ends_with)
   * [studly_case()](#studly_case)
 * **[Miscellaneous](#miscellaneous)**
   * [class_uses_recursive()](#class_uses_recursive)
@@ -323,6 +325,28 @@ The `class_basename` returns the class name of the given class with the class' n
 $class = class_basename('Foo\Bar\Baz');
 
 // Baz
+```
+
+### `e()`
+<a name="e"></a>
+
+The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
+
+```php
+echo e('<html>foo</html>');
+
+// &lt;html&gt;foo&lt;/html&gt;
+```
+
+### `ends_with()`
+<a name="ends_with"></a>
+
+The `ends_with` function determines if the given string ends with the given value:
+
+```php
+$result = ends_with('This is my name', 'name');
+
+// true
 ```
 
 ### `studly_case()`
