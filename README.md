@@ -30,6 +30,8 @@ composer require hkp22/php-helpers
   * [array_pull()](#array_pull)
   * [array_where()](#array_where)
   * [data_get()](#data_get)
+  * [head()](#head)
+  * [last()](#last)
 * **[Strings](#strings)**
   * [camel_case()](#camel_case)
   * [class_basename()](#class_basename)
@@ -300,6 +302,32 @@ $data = ['products' => ['desk' => ['price' => 100]]];
 $price = data_get($data, 'products.desk.price');
 
 // 100
+```
+
+### `head()`
+<a name="head"></a>
+
+The `head` function returns the first element in the given array:
+
+```php
+$array = [100, 200, 300];
+
+$first = head($array);
+
+// 100
+```
+
+### `last()`
+<a name="last"></a>
+
+The `last` function returns the last element in the given array:
+
+```php
+$array = [100, 200, 300];
+
+$last = last($array);
+
+// 300
 ```
 
 ## Strings

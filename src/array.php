@@ -372,8 +372,7 @@ if (!function_exists('array_pull')) {
     }
 }
 
-if ( ! function_exists('array_where'))
-{
+if (!function_exists('array_where')) {
     /**
      * Filter the array using the given callback.
      *
@@ -386,7 +385,6 @@ if ( ! function_exists('array_where'))
         return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
     }
 }
-
 
 if (!function_exists('data_get')) {
     /**
@@ -424,5 +422,31 @@ if (!function_exists('data_get')) {
             }
         }
         return $target;
+    }
+}
+
+if (!function_exists('head')) {
+    /**
+     * Get the first element of an array. Useful for method chaining.
+     *
+     * @param  array  $array
+     * @return mixed
+     */
+    function head($array)
+    {
+        return reset($array);
+    }
+}
+
+if (!function_exists('last')) {
+    /**
+     * Get the last element from an array.
+     *
+     * @param  array  $array
+     * @return mixed
+     */
+    function last($array)
+    {
+        return end($array);
     }
 }
